@@ -1,0 +1,22 @@
+name: remote ssh command
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd downloads/deploy-prj
+          git pull origin main
+          docker stop be12con
+          docker rm be12con
+          docker build -t be12:latest .
+          docker run --name be12con -d -p 8000:8000 be12
