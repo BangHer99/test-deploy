@@ -14,7 +14,7 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          cd downloads/deploy-prj
+          cd test-deploy
           git pull origin main
           docker stop be12con
           docker rm be12con
